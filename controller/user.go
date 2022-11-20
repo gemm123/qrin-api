@@ -47,7 +47,7 @@ func (ctr *controller) Register(c *gin.Context) {
 	}
 	user.Password = passwordHash
 
-	newUser, err := ctr.service.Register(user)
+	_, err = ctr.service.Register(user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "faield " + err.Error(),
@@ -56,7 +56,6 @@ func (ctr *controller) Register(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
-		"data":    newUser,
+		"message": "register success",
 	})
 }
