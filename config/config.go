@@ -1,6 +1,7 @@
 package config
 
 import (
+	"gemm123/qrin-api/models"
 	"log"
 
 	"gorm.io/driver/postgres"
@@ -20,7 +21,7 @@ func InitDB(dsn string) {
 }
 
 func MirgrateDB() {
-	DB.AutoMigrate()
+	DB.AutoMigrate(&models.User{})
 }
 
 func CloseDB() {
