@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"gemm123/qrin-api/config"
+	"gemm123/qrin-api/controller"
+	"gemm123/qrin-api/repository"
+	"gemm123/qrin-api/service"
 	"log"
 	"os"
 
@@ -28,15 +31,17 @@ func main() {
 	config.MirgrateDB()
 	defer config.CloseDB()
 
+	userRepository := repository.NewRepository(config.DB)
+	userService := service.NewService(userRepository)
+	userController := controller.NewController(userService)
+
 	r := gin.Default()
 
 	r.Use(cors.Default())
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	api := r.Group("/api/v1")
+	auth := api.Group("/auth")
+	auth.POST("/register", userController.Register)
 
 	r.Run(":" + port)
 }
