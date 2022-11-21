@@ -53,6 +53,8 @@ func main() {
 
 	cashier := api.Group("/cashier")
 	cashier.POST("/register", cashierController.Register)
+	cashier.POST("/login", cashierController.LoginCashier)
+	cashier.GET("/", middleware.CheckAuthorization(), cashierController.GetCashier)
 
 	r.Run(":" + port)
 }
