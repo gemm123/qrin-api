@@ -36,15 +36,23 @@ func main() {
 	userService := service.NewService(userRepository)
 	userController := controller.NewController(userService)
 
+	cashierRepository := repository.NewRepositoryCashier(config.DB)
+	cashierService := service.NewServiceCashier(cashierRepository)
+	cashierController := controller.NewControllerCashier(cashierService)
+
 	r := gin.Default()
 
 	r.Use(cors.Default())
 
 	api := r.Group("/api/v1")
+
 	auth := api.Group("/auth")
 	auth.POST("/register", userController.Register)
 	auth.POST("/login", userController.Login)
 	auth.GET("/user", middleware.CheckAuthorization(), userController.GetUser)
+
+	cashier := api.Group("/cashier")
+	cashier.POST("/register", cashierController.Register)
 
 	r.Run(":" + port)
 }
