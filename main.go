@@ -42,6 +42,7 @@ func main() {
 	api := r.Group("/api/v1")
 	auth := api.Group("/auth")
 	auth.POST("/register", userController.Register)
+	auth.POST("/login", userController.Login)
 
 	r.Run(":" + port)
 }

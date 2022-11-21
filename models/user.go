@@ -13,3 +13,8 @@ type User struct {
 	OTP      int    `json:"otp"`
 	Role     string `json:"role" gorm:"not null" binding:"required"`
 }
+
+type InputLogin struct {
+	Email    string `json:"email" gorm:"-:migration" binding:"required"`
+	Password string `json:"password" gorm:"-:migration" binding:"required"`
+}
