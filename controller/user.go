@@ -26,9 +26,6 @@ func (ctr *controller) Register(c *gin.Context) {
 		return
 	}
 
-	otp := helper.GenerateOTP()
-	user.OTP = otp
-
 	passwordHash, err := helper.PasswordHash(user.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -90,7 +87,7 @@ func (ctr *controller) Login(c *gin.Context) {
 		return
 	}
 
-	signedToken, err := ctr.service.GenerateToken(user.ID, user.Email, user.Name, user.Image, user.Phone, user.Role, user.Budget, user.OTP)
+	signedToken, err := ctr.service.GenerateToken(user.ID, user.Email, user.Name, user.Image, user.Phone, user.Budget)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed " + err.Error(),

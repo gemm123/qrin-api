@@ -10,8 +10,6 @@ type User struct {
 	Image    string `json:"image"`
 	Phone    string `json:"phone" gorm:"not null" binding:"required"`
 	Budget   int    `json:"budget" gorm:"default:0"`
-	OTP      int    `json:"otp"`
-	Role     string `json:"role" gorm:"not null" binding:"required"`
 }
 
 type InputLogin struct {

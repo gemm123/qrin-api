@@ -19,7 +19,7 @@ type Service interface {
 	CheckEmail(email string) error
 	CheckPassword(email, password string) (bool, error)
 	GetUser(email string) (models.User, error)
-	GenerateToken(id uint, email, name, image, phone, role string, budget, otp int) (string, error)
+	GenerateToken(id uint, email, name, image, phone string, budget int) (string, error)
 	GetUserByID(id uint) (models.User, error)
 }
 
@@ -57,7 +57,7 @@ func (s *service) CheckPassword(email, password string) (bool, error) {
 	return ok, err
 }
 
-func (s *service) GenerateToken(id uint, email, name, image, phone, role string, budget, otp int) (string, error) {
+func (s *service) GenerateToken(id uint, email, name, image, phone string, budget int) (string, error) {
 	claims := config.CustomClaims{
 		Id:     id,
 		Email:  email,
@@ -65,8 +65,6 @@ func (s *service) GenerateToken(id uint, email, name, image, phone, role string,
 		Image:  image,
 		Phone:  phone,
 		Budget: budget,
-		Otp:    otp,
-		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 168)),
 			Issuer:    "qrin",
