@@ -15,6 +15,7 @@ type Repository interface {
 	FindEmail(email string) error
 	GetPassByEmail(email string) (string, error)
 	GetUser(email string) (models.User, error)
+	GetUserByID(id uint) (models.User, error)
 }
 
 func NewRepository(DB *gorm.DB) *repository {
@@ -29,6 +30,12 @@ func (r *repository) CreateUser(user models.User) (models.User, error) {
 func (r *repository) GetUser(email string) (models.User, error) {
 	var user models.User
 	err := r.DB.Where("email = ?", email).First(&user).Error
+	return user, err
+}
+
+func (r *repository) GetUserByID(id uint) (models.User, error) {
+	var user models.User
+	err := r.DB.Where("id = ?", id).First(&user).Error
 	return user, err
 }
 

@@ -111,3 +111,19 @@ func (ctr *controller) Login(c *gin.Context) {
 		"token":   signedToken,
 	})
 }
+
+func (ctr *controller) GetUser(c *gin.Context) {
+	userID := c.MustGet("userID").(int)
+
+	user, err := ctr.service.GetUserByID(uint(userID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "faield " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": user,
+	})
+}

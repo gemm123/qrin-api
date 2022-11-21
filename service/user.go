@@ -20,6 +20,7 @@ type Service interface {
 	CheckPassword(email, password string) (bool, error)
 	GetUser(email string) (models.User, error)
 	GenerateToken(id uint, email, name, image, phone, role string, budget, otp int) (string, error)
+	GetUserByID(id uint) (models.User, error)
 }
 
 func NewService(repository repository.Repository) *service {
@@ -33,6 +34,11 @@ func (s *service) Register(user models.User) (models.User, error) {
 
 func (s *service) GetUser(email string) (models.User, error) {
 	user, err := s.repository.GetUser(email)
+	return user, err
+}
+
+func (s *service) GetUserByID(id uint) (models.User, error) {
+	user, err := s.repository.GetUserByID(id)
 	return user, err
 }
 

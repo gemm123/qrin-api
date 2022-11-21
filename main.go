@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gemm123/qrin-api/config"
 	"gemm123/qrin-api/controller"
+	"gemm123/qrin-api/middleware"
 	"gemm123/qrin-api/repository"
 	"gemm123/qrin-api/service"
 	"log"
@@ -43,6 +44,7 @@ func main() {
 	auth := api.Group("/auth")
 	auth.POST("/register", userController.Register)
 	auth.POST("/login", userController.Login)
+	auth.GET("/user", middleware.CheckAuthorization(), userController.GetUser)
 
 	r.Run(":" + port)
 }
