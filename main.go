@@ -40,9 +40,14 @@ func main() {
 	cashierService := service.NewServiceCashier(cashierRepository)
 	cashierController := controller.NewControllerCashier(cashierService)
 
+	itemRepository := repository.NewRepositoryItem(config.DB)
+	itemService := service.NewServiceItem(itemRepository)
+	itemController := controller.NewControllerItem(itemService)
+
 	r := gin.Default()
 
 	r.Use(cors.Default())
+	r.Static("/images", "./src/images")
 
 	api := r.Group("/api/v1")
 
@@ -55,6 +60,9 @@ func main() {
 	cashier.POST("/register", cashierController.Register)
 	cashier.POST("/login", cashierController.LoginCashier)
 	cashier.GET("/", middleware.CheckAuthorization(), cashierController.GetCashier)
+
+	item := api.Group("/item")
+	item.POST("/add", middleware.CheckAuthorization(), itemController.AddItem)
 
 	r.Run(":" + port)
 }
