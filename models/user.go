@@ -12,7 +12,7 @@ type User struct {
 	Budget   int    `json:"budget" gorm:"default:0"`
 }
 
-type InputLogin struct {
+type InputLoginUser struct {
 	Email    string `json:"email" gorm:"-:migration" binding:"required"`
 	Password string `json:"password" gorm:"-:migration" binding:"required"`
 }

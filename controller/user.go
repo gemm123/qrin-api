@@ -49,7 +49,7 @@ func (ctr *controller) Register(c *gin.Context) {
 }
 
 func (ctr *controller) Login(c *gin.Context) {
-	var input models.InputLogin
+	var input models.InputLoginUser
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"message": "faield " + err.Error(),
