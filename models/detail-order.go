@@ -8,5 +8,4 @@ type DetailOrder struct {
 	Price    int64
 	OrderID  string
 	ItemID   uint
-	Item     Item
 }

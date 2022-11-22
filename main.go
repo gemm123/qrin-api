@@ -46,7 +46,7 @@ func main() {
 
 	orderRepository := repository.NewRepositoryOrder(config.DB)
 	orderService := service.NewServiceOrder(orderRepository)
-	orderController := controller.NewControllerOrder(orderService, itemService)
+	orderController := controller.NewControllerOrder(orderService, itemService, cashierService)
 
 	r := gin.Default()
 
@@ -71,6 +71,7 @@ func main() {
 	item.POST("/add", middleware.CheckAuthorization(), itemController.AddItem)
 
 	order := api.Group("/order")
+	order.GET("/", middleware.CheckAuthorization(), orderController.ShowAllOrder)
 	order.POST("/add", middleware.CheckAuthorization(), orderController.AddOrder)
 
 	r.Run(":" + port)

@@ -7,6 +7,8 @@ type Order struct {
 	TotalPrice   int64     `json:"totalPrice" gorm:"not null"`
 	Date         time.Time `json:"date" gorm:"not null"`
 	Payment      string    `json:"payment" gorm:"not null"`
+	Address      string
+	Shop         string
 	CashierID    uint
 	UserID       uint
 	DetailOrders []DetailOrder

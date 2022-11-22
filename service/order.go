@@ -11,6 +11,7 @@ type serviceOrder struct {
 
 type ServiceOrder interface {
 	AddOrder(order models.Order) (models.Order, error)
+	ShowAllOrder(userID uint) ([]models.Order, error)
 	AddDetailOrder(detailOrder models.DetailOrder) (models.DetailOrder, error)
 }
 
@@ -21,6 +22,11 @@ func NewServiceOrder(repositoryOrder repository.RepositoryOrder) *serviceOrder {
 func (s *serviceOrder) AddOrder(order models.Order) (models.Order, error) {
 	newOrder, err := s.repositoryOrder.CreateOrder(order)
 	return newOrder, err
+}
+
+func (s *serviceOrder) ShowAllOrder(userID uint) ([]models.Order, error) {
+	orders, err := s.repositoryOrder.GetAllOrder(userID)
+	return orders, err
 }
 
 func (s *serviceOrder) AddDetailOrder(detailOrder models.DetailOrder) (models.DetailOrder, error) {
