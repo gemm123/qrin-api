@@ -48,6 +48,23 @@ func (ctr *controllerItem) AddItem(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": newItem,
+		"message": "success",
+		"data":    newItem,
+	})
+}
+
+func (ctr *controllerItem) ShowAllItem(c *gin.Context) {
+	cashierID := c.MustGet("userID").(int)
+	items, err := ctr.serviceItem.ShowAllItem(uint(cashierID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed" + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+		"data":    items,
 	})
 }

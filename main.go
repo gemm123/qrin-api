@@ -62,6 +62,7 @@ func main() {
 	cashier.GET("/", middleware.CheckAuthorization(), cashierController.GetCashier)
 
 	item := api.Group("/item")
+	item.GET("/", middleware.CheckAuthorization(), itemController.ShowAllItem)
 	item.POST("/add", middleware.CheckAuthorization(), itemController.AddItem)
 
 	r.Run(":" + port)
