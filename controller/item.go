@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"gemm123/qrin-api/helper"
 	"gemm123/qrin-api/models"
 	"gemm123/qrin-api/service"
 	"net/http"
@@ -27,15 +28,15 @@ func (ctr *controllerItem) AddItem(c *gin.Context) {
 		return
 	}
 
+	userID := c.MustGet("userID").(int)
 	file, _ := c.FormFile("image")
 	filename := strings.ReplaceAll(file.Filename, " ", "-")
-	file.Filename = fmt.Sprintf("%d-%s", item.ID, filename)
+	uniqueCode := helper.GenerateCodeImage()
+	file.Filename = fmt.Sprintf("%d-%d-%s", userID, uniqueCode, filename)
 	c.SaveUploadedFile(file, "src/images/"+file.Filename)
 
 	filePath := "/images/" + file.Filename
 	item.Image = filePath
-
-	userID := c.MustGet("userID").(int)
 	item.CashierID = uint(userID)
 
 	newItem, err := ctr.serviceItem.AddItem(item)

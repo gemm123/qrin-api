@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GenerateOTP() int {
+func GenerateCodeImage() int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(9999-0001) + 0001
 }
