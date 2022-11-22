@@ -21,7 +21,7 @@ func InitDB(dsn string) {
 }
 
 func MirgrateDB() {
-	DB.AutoMigrate(&models.User{}, &models.Cashier{})
+	DB.AutoMigrate(&models.User{}, &models.Cashier{}, &models.Order{}, &models.DetailOrder{})
 }
 
 func CloseDB() {

@@ -15,6 +15,7 @@ type ServiceItem interface {
 	ShowAllItem(cashierID uint) ([]models.Item, error)
 	FilterItem(items []models.Item, inputItem string) []models.Item
 	ShowDetailItem(itemID, cashierID uint) (models.Item, error)
+	ShowDetailItemByName(name string, cashierID uint) (models.Item, error)
 }
 
 func NewServiceItem(repositoryItem repository.RepositoryItem) *serviceItem {
@@ -43,5 +44,10 @@ func (s *serviceItem) FilterItem(items []models.Item, inputItem string) []models
 
 func (s *serviceItem) ShowDetailItem(itemID, cashierID uint) (models.Item, error) {
 	item, err := s.repositoryItem.GetDetailItem(itemID, cashierID)
+	return item, err
+}
+
+func (s *serviceItem) ShowDetailItemByName(name string, cashierID uint) (models.Item, error) {
+	item, err := s.repositoryItem.GetDetailItemByName(name, cashierID)
 	return item, err
 }

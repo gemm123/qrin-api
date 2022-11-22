@@ -44,6 +44,10 @@ func main() {
 	itemService := service.NewServiceItem(itemRepository)
 	itemController := controller.NewControllerItem(itemService)
 
+	orderRepository := repository.NewRepositoryOrder(config.DB)
+	orderService := service.NewServiceOrder(orderRepository)
+	orderController := controller.NewControllerOrder(orderService, itemService)
+
 	r := gin.Default()
 
 	r.Use(cors.Default())
@@ -65,6 +69,9 @@ func main() {
 	item.GET("/", middleware.CheckAuthorization(), itemController.ShowAllItem)
 	item.GET("/:id", middleware.CheckAuthorization(), itemController.ShowDetailItem)
 	item.POST("/add", middleware.CheckAuthorization(), itemController.AddItem)
+
+	order := api.Group("/order")
+	order.POST("/add", middleware.CheckAuthorization(), orderController.AddOrder)
 
 	r.Run(":" + port)
 }

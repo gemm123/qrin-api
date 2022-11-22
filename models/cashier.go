@@ -12,6 +12,7 @@ type Cashier struct {
 	Shop     string `json:"shop" gorm:"not null" binding:"required"`
 	Address  string `json:"address" gorm:"not null" binding:"required"`
 	Items    []Item
+	Orders   []Order
 }
 
 type InputLoginCashier struct {
