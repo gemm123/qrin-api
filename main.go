@@ -63,6 +63,7 @@ func main() {
 
 	item := api.Group("/item")
 	item.GET("/", middleware.CheckAuthorization(), itemController.ShowAllItem)
+	item.GET("/:id", middleware.CheckAuthorization(), itemController.ShowDetailItem)
 	item.POST("/add", middleware.CheckAuthorization(), itemController.AddItem)
 
 	r.Run(":" + port)

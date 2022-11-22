@@ -13,6 +13,7 @@ type repositoryItem struct {
 type RepositoryItem interface {
 	CreateItem(item models.Item) (models.Item, error)
 	GetAllItem(cashierID uint) ([]models.Item, error)
+	GetDetailItem(itemID, cashierID uint) (models.Item, error)
 }
 
 func NewRepositoryItem(DB *gorm.DB) *repositoryItem {
@@ -28,4 +29,10 @@ func (r *repositoryItem) GetAllItem(cashierID uint) ([]models.Item, error) {
 	var items []models.Item
 	err := r.DB.Where("cashier_id = ?", cashierID).Find(&items).Error
 	return items, err
+}
+
+func (r *repositoryItem) GetDetailItem(itemID, cashierID uint) (models.Item, error) {
+	var item models.Item
+	err := r.DB.Where("id = ? AND cashier_id = ?", itemID, cashierID).First(&item).Error
+	return item, err
 }

@@ -6,6 +6,7 @@ import (
 	"gemm123/qrin-api/models"
 	"gemm123/qrin-api/service"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -78,5 +79,23 @@ func (ctr *controllerItem) ShowAllItem(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 		"data":    items,
+	})
+}
+
+func (ctr *controllerItem) ShowDetailItem(c *gin.Context) {
+	cashierID := c.MustGet("userID").(int)
+	itemIDString := c.Param("id")
+	itemID, _ := strconv.Atoi(itemIDString)
+	item, err := ctr.serviceItem.ShowDetailItem(uint(itemID), uint(cashierID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed" + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+		"data":    item,
 	})
 }
