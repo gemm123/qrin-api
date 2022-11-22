@@ -63,6 +63,18 @@ func (ctr *controllerItem) ShowAllItem(c *gin.Context) {
 		return
 	}
 
+	inputItem := c.Query("item")
+	if inputItem != "" {
+		filteredItems := ctr.serviceItem.FilterItem(items, inputItem)
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "success",
+			"data":    filteredItems,
+		})
+
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 		"data":    items,
